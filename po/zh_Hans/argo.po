@@ -1,6 +1,6 @@
-# Cloudflared LuCI 中文翻译
+# Argo LuCI 中文翻译
 # Copyright (C) 2024
-# This file is distributed under the same license as the luci-app-cloudflared package.
+# This file is distributed under the same license as the luci-app-argo package.
 
 msgid ""
 msgstr ""
@@ -8,11 +8,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 
-msgid "Cloudflare Tunnel"
-msgstr "Cloudflare 隧道"
+msgid "Argo Tunnel"
+msgstr "Argo 隧道"
 
-msgid "Cloudflare Tunnel (cloudflared) management interface. Uses Cloudflare remote managed tunnel, you need to create a tunnel in Cloudflare Zero Trust panel first to get Token."
-msgstr "Cloudflare Tunnel (cloudflared) 管理界面。使用 Cloudflare 远程管理隧道方式，需要先在 Cloudflare Zero Trust 面板创建隧道获取 Token。"
+msgid "Cloudflare Tunnel (Argo) management interface. Uses Cloudflare remote managed tunnel, you need to create a tunnel in Cloudflare Zero Trust panel first to get Token."
+msgstr "Cloudflare Tunnel (Argo) 管理界面。使用 Cloudflare 远程管理隧道方式，需要先在 Cloudflare Zero Trust 面板创建隧道获取 Token。"
 
 msgid "Service Status"
 msgstr "服务状态"
@@ -68,8 +68,8 @@ msgstr "查看日志"
 msgid "Refresh Logs"
 msgstr "刷新日志"
 
-msgid "Cloudflared Logs"
-msgstr "Cloudflared 日志"
+msgid "Argo Logs"
+msgstr "Argo 日志"
 
 msgid "No logs yet"
 msgstr "暂无日志"

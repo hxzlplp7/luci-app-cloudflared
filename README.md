@@ -1,6 +1,6 @@
-# luci-app-cloudflared
+# luci-app-argo
 
-LuCI 界面管理 Cloudflare Tunnel (cloudflared) 的插件，适用于 OpenWrt / iStoreOS。
+LuCI 界面管理 Cloudflare Tunnel (Argo) 的插件，适用于 OpenWrt / iStoreOS。
 
 ## 功能特点
 
@@ -25,17 +25,17 @@ LuCI 界面管理 Cloudflare Tunnel (cloudflared) 的插件，适用于 OpenWrt 
 1. 将本仓库克隆到 OpenWrt SDK 的 package 目录：
 ```bash
 cd /path/to/openwrt/package
-git clone https://github.com/your-repo/luci-app-cloudflared.git
+git clone https://github.com/hxzlplp7/luci-app-argo.git
 ```
 
 2. 编译安装包：
 ```bash
-make package/luci-app-cloudflared/compile V=s
+make package/luci-app-argo/compile V=s
 ```
 
 3. 在 `bin/packages/` 目录下找到生成的 ipk 文件并安装：
 ```bash
-opkg install luci-app-cloudflared_*.ipk
+opkg install luci-app-argo_*.ipk
 ```
 
 ### 方法二：直接安装 ipk
@@ -43,7 +43,7 @@ opkg install luci-app-cloudflared_*.ipk
 1. 下载 Release 中的 ipk 文件
 2. 上传到路由器并安装：
 ```bash
-opkg install luci-app-cloudflared_*.ipk
+opkg install luci-app-argo_*.ipk
 ```
 
 ## 使用方法
@@ -65,7 +65,7 @@ opkg install luci-app-cloudflared_*.ipk
 ### 第二步：在 LuCI 中配置
 
 1. 登录 OpenWrt 管理界面
-2. 进入 **服务** → **Cloudflare 隧道**
+2. 进入 **服务** → **Argo 隧道**
 3. 如果 cloudflared 未安装，点击安装按钮
 4. 在 **Tunnel Token** 字段粘贴第一步获取的 Token
 5. 勾选 **启用**
@@ -80,48 +80,48 @@ opkg install luci-app-cloudflared_*.ipk
 ## 目录结构
 
 ```
-luci-app-cloudflared/
+luci-app-argo/
 ├── Makefile                              # OpenWrt 包 Makefile
 ├── htdocs/
 │   └── luci-static/
 │       └── resources/
 │           └── view/
-│               └── cloudflared/
-│                   └── cloudflared.js    # LuCI 前端视图
+│               └── argo/
+│                   └── argo.js           # LuCI 前端视图
 ├── po/
 │   ├── templates/
-│   │   └── cloudflared.pot               # 翻译模板
+│   │   └── argo.pot                      # 翻译模板
 │   ├── zh_Hans/
-│   │   └── cloudflared.po                # 简体中文翻译
+│   │   └── argo.po                       # 简体中文翻译
 │   └── zh-cn/
-│       └── cloudflared.po                # 简体中文翻译（兼容）
+│       └── argo.po                       # 简体中文翻译（兼容）
 └── root/
     ├── etc/
     │   ├── config/
-    │   │   └── cloudflared               # UCI 配置文件
+    │   │   └── argo                      # UCI 配置文件
     │   ├── init.d/
-    │   │   └── cloudflared               # init.d 服务脚本
+    │   │   └── argo                      # init.d 服务脚本
     │   └── uci-defaults/
-    │       └── luci-app-cloudflared      # 安装后脚本
+    │       └── luci-app-argo             # 安装后脚本
     └── usr/
         ├── libexec/
         │   └── rpcd/
-        │       └── luci.cloudflared      # RPC 辅助脚本
+        │       └── luci.argo             # RPC 辅助脚本
         └── share/
             ├── luci/
             │   └── menu.d/
-            │       └── luci-app-cloudflared.json  # 菜单配置
+            │       └── luci-app-argo.json    # 菜单配置
             └── rpcd/
                 └── acl.d/
-                    └── luci-app-cloudflared.json  # 权限配置
+                    └── luci-app-argo.json    # 权限配置
 ```
 
 ## 文件路径
 
 - **二进制文件**: `/usr/bin/cloudflared`
-- **配置目录**: `/etc/cloudflared/`
-- **Token 文件**: `/etc/cloudflared/token`
-- **服务脚本**: `/etc/init.d/cloudflared`
+- **配置目录**: `/etc/argo/`
+- **Token 文件**: `/etc/argo/token`
+- **服务脚本**: `/etc/init.d/argo`
 
 ## 许可证
 

@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  PACKAGE_NAME: luci-app-cloudflared
+  PACKAGE_NAME: luci-app-argo
 
 jobs:
   build:
@@ -80,8 +80,8 @@ jobs:
       - name: Collect packages
         run: |
           mkdir -p artifacts
-          find sdk/bin -name "luci-app-cloudflared*.ipk" -exec cp {} artifacts/ \;
-          find sdk/bin -name "luci-i18n-cloudflared*.ipk" -exec cp {} artifacts/ \; 2>/dev/null || true
+          find sdk/bin -name "luci-app-argo*.ipk" -exec cp {} artifacts/ \;
+          find sdk/bin -name "luci-i18n-argo*.ipk" -exec cp {} artifacts/ \; 2>/dev/null || true
           ls -la artifacts/
 
       - name: Upload artifacts

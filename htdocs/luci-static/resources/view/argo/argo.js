@@ -14,29 +14,29 @@ var callServiceList = rpc.declare({
     expect: { '': {} }
 });
 
-var callCloudflaredStatus = rpc.declare({
-    object: 'luci.cloudflared',
+var callArgoStatus = rpc.declare({
+    object: 'luci.argo',
     method: 'get_status',
     expect: { '': {} }
 });
 
-var callCloudflaredInstall = rpc.declare({
-    object: 'luci.cloudflared',
+var callArgoInstall = rpc.declare({
+    object: 'luci.argo',
     method: 'install',
     expect: { '': {} }
 });
 
-var callCloudflaredArch = rpc.declare({
-    object: 'luci.cloudflared',
+var callArgoArch = rpc.declare({
+    object: 'luci.argo',
     method: 'get_arch',
     expect: { '': {} }
 });
 
 function getServiceStatus() {
-    return L.resolveDefault(callServiceList('cloudflared'), {}).then(function (res) {
+    return L.resolveDefault(callServiceList('argo'), {}).then(function (res) {
         var isRunning = false;
         try {
-            isRunning = res['cloudflared']['instances']['cloudflared']['running'];
+            isRunning = res['argo']['instances']['argo']['running'];
         } catch (e) { }
         return isRunning;
     });
@@ -45,9 +45,9 @@ function getServiceStatus() {
 return view.extend({
     load: function () {
         return Promise.all([
-            uci.load('cloudflared'),
-            L.resolveDefault(callCloudflaredStatus(), {}),
-            L.resolveDefault(callCloudflaredArch(), {})
+            uci.load('argo'),
+            L.resolveDefault(callArgoStatus(), {}),
+            L.resolveDefault(callArgoArch(), {})
         ]);
     },
 
@@ -62,11 +62,11 @@ return view.extend({
         var arch = archInfo.arch || 'unknown';
         var archSupported = archInfo.supported === true;
 
-        m = new form.Map('cloudflared', _('Cloudflare 隧道'),
-            _('Cloudflare Tunnel (cloudflared) 管理界面。使用 Cloudflare 远程管理隧道方式，需要先在 Cloudflare Zero Trust 面板创建隧道获取 Token。'));
+        m = new form.Map('argo', _('Argo 隧道'),
+            _('Cloudflare Tunnel (Argo) 管理界面。使用 Cloudflare 远程管理隧道方式，需要先在 Cloudflare Zero Trust 面板创建隧道获取 Token。'));
 
         // 状态信息区域
-        s = m.section(form.TypedSection, 'cloudflared', _('服务状态'));
+        s = m.section(form.TypedSection, 'argo', _('服务状态'));
         s.anonymous = true;
         s.addremove = false;
 
@@ -110,7 +110,7 @@ return view.extend({
         };
 
         // 安装管理区域
-        s = m.section(form.TypedSection, 'cloudflared', _('安装管理'));
+        s = m.section(form.TypedSection, 'argo', _('安装管理'));
         s.anonymous = true;
         s.addremove = false;
 
@@ -128,7 +128,7 @@ return view.extend({
                 E('p', {}, _('这可能需要几分钟时间，取决于网络速度。'))
             ]);
 
-            return L.resolveDefault(callCloudflaredInstall(), {}).then(function (res) {
+            return L.resolveDefault(callArgoInstall(), {}).then(function (res) {
                 ui.hideModal();
                 if (res.success) {
                     ui.addNotification(null, E('p', _('安装完成！请刷新页面查看状态。')), 'info');
@@ -143,14 +143,14 @@ return view.extend({
         };
 
         // 基本设置
-        s = m.section(form.TypedSection, 'cloudflared', _('基本设置'));
+        s = m.section(form.TypedSection, 'argo', _('基本设置'));
         s.anonymous = true;
         s.addremove = false;
 
         o = s.option(form.Flag, 'enabled', _('启用服务'));
         o.rmempty = false;
         o.default = '0';
-        o.description = _('启用后，cloudflared 将在保存配置时自动启动，并设置为开机自启。');
+        o.description = _('启用后，Argo 将在保存配置时自动启动，并设置为开机自启。');
 
         o = s.option(form.Value, 'token', _('Tunnel Token'),
             _('在 Cloudflare Zero Trust 面板创建隧道后获取的 Token。这是一个以 eyJ 开头的 Base64 编码长字符串。'));
@@ -165,7 +165,7 @@ return view.extend({
         };
 
         // Token 获取指南
-        s = m.section(form.TypedSection, 'cloudflared', _('Token 获取指南'));
+        s = m.section(form.TypedSection, 'argo', _('Token 获取指南'));
         s.anonymous = true;
         s.addremove = false;
 
@@ -189,7 +189,7 @@ return view.extend({
         };
 
         // 日志查看
-        s = m.section(form.TypedSection, 'cloudflared', _('运行日志'));
+        s = m.section(form.TypedSection, 'argo', _('运行日志'));
         s.anonymous = true;
         s.addremove = false;
 
@@ -197,14 +197,14 @@ return view.extend({
         o.inputtitle = _('刷新日志');
         o.inputstyle = 'action';
         o.onclick = function () {
-            return fs.exec('/usr/bin/logread', ['-e', 'cloudflared']).then(function (res) {
+            return fs.exec('/usr/bin/logread', ['-e', 'argo']).then(function (res) {
                 var log = (res.stdout || '').trim();
                 if (!log) {
-                    log = _('暂无 cloudflared 相关日志。\n\n提示：如果服务刚启动，请稍等片刻后再刷新。');
+                    log = _('暂无 Argo 相关日志。\n\n提示：如果服务刚启动，请稍等片刻后再刷新。');
                 }
                 var lines = log.split('\n').slice(-100).join('\n');
 
-                ui.showModal(_('Cloudflared 运行日志'), [
+                ui.showModal(_('Argo 运行日志'), [
                     E('pre', {
                         'style': 'white-space: pre-wrap; word-wrap: break-word; max-height: 500px; overflow-y: auto; padding: 15px; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); color: #0f0; font-family: "Consolas", "Monaco", monospace; font-size: 12px; border-radius: 8px; border: 1px solid #0f0;'
                     }, [lines]),

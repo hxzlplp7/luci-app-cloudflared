@@ -1,19 +1,19 @@
 #!/bin/sh /etc/rc.common
 # Copyright (C) 2024
-# Cloudflare Tunnel init script
+# Cloudflare Tunnel (Argo) init script
 
 START=99
 STOP=10
 USE_PROCD=1
 
 PROG="/usr/bin/cloudflared"
-CONFIG_DIR="/etc/cloudflared"
+CONFIG_DIR="/etc/argo"
 TOKEN_FILE="${CONFIG_DIR}/token"
 
 get_token() {
     # 优先从 UCI 读取
     local token
-    token=$(uci -q get cloudflared.config.token)
+    token=$(uci -q get argo.config.token)
     if [ -n "$token" ]; then
         echo "$token"
         return
@@ -26,13 +26,13 @@ get_token() {
 
 is_enabled() {
     local enabled
-    enabled=$(uci -q get cloudflared.config.enabled)
+    enabled=$(uci -q get argo.config.enabled)
     [ "$enabled" = "1" ]
 }
 
 start_service() {
     if ! is_enabled; then
-        echo "Cloudflared is disabled"
+        echo "Argo is disabled"
         return 0
     fi
 
@@ -54,7 +54,7 @@ start_service() {
     echo -n "$token" > "$TOKEN_FILE"
     chmod 600 "$TOKEN_FILE"
 
-    procd_open_instance cloudflared
+    procd_open_instance argo
     procd_set_param command $PROG tunnel run --token "$token"
     procd_set_param stdout 1
     procd_set_param stderr 1
@@ -67,7 +67,7 @@ stop_service() {
 }
 
 service_triggers() {
-    procd_add_reload_trigger "cloudflared"
+    procd_add_reload_trigger "argo"
 }
 
 reload_service() {

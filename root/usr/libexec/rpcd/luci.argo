@@ -1,5 +1,5 @@
 #!/bin/sh
-# RPC ubus helper for cloudflared operations
+# RPC ubus helper for argo (cloudflared) operations
 
 . /usr/share/libubox/jshn.sh
 
@@ -30,10 +30,10 @@ case "$1" in
                 fi
                 
                 # 检查 Token 配置
-                token=$(uci -q get cloudflared.config.token)
+                token=$(uci -q get argo.config.token)
                 if [ -n "$token" ]; then
                     json_add_boolean "token_configured" 1
-                elif [ -f "/etc/cloudflared/token" ] && [ -s "/etc/cloudflared/token" ]; then
+                elif [ -f "/etc/argo/token" ] && [ -s "/etc/argo/token" ]; then
                     json_add_boolean "token_configured" 1
                 else
                     json_add_boolean "token_configured" 0
@@ -94,7 +94,7 @@ case "$1" in
                 if wget -q --timeout=60 -O "/usr/bin/cloudflared.tmp" "$download_url" 2>/dev/null; then
                     mv "/usr/bin/cloudflared.tmp" "/usr/bin/cloudflared"
                     chmod +x /usr/bin/cloudflared
-                    mkdir -p /etc/cloudflared
+                    mkdir -p /etc/argo
                     
                     json_add_boolean "success" 1
                     json_add_string "message" "Installation complete"
