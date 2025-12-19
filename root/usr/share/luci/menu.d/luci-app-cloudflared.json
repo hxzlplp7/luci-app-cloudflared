@@ -1,0 +1,18 @@
+{
+    "admin/services/cloudflared": {
+        "title": "Cloudflare 隧道",
+        "order": 90,
+        "action": {
+            "type": "view",
+            "path": "cloudflared/cloudflared"
+        },
+        "depends": {
+            "acl": [
+                "luci-app-cloudflared"
+            ],
+            "uci": {
+                "cloudflared": true
+            }
+        }
+    }
+}

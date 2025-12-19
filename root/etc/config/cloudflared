@@ -1,0 +1,3 @@
+config cloudflared 'config'
+	option enabled '0'
+	option token ''
